@@ -211,7 +211,7 @@ function ctor_highlighter()
     /** Searches for declarations, formats them and replaces them with placeholders. */
     function declarations(innerHTML)
     {
-      return innerHTML.replace(new RegExp('(^[ \\t]*[{}]?[ \\t]*)\\b(' + syntax[5].join('|') + ')(?:[ \\t]*$|([ \\t]+)(.+?)(?=[ \\t]+<(?:em|sct)\\d+></(?:em|sct)\\d+>|$))', 'gim'), function(_, PRE, DEC, SEP, VARS)
+      return innerHTML.replace(new RegExp('(^[ \\t]*(?:[{}][ \\t]*)*)\\b(' + syntax[5].join('|') + ')(?:[ \\t]*$|([ \\t]+)(.+?)(?=[ \\t]+<(?:em|sct)\\d+></(?:em|sct)\\d+>|$))', 'gim'), function(_, PRE, DEC, SEP, VARS)
       {
         var dec = DEC.toLowerCase();
         if (dec == 'class' && VARS) // class statements:
@@ -229,7 +229,7 @@ function ctor_highlighter()
     /** Searches for directives, formats them and replaces them with placeholders. */
     function directives(innerHTML)
     {
-      return innerHTML.replace(new RegExp('(^[ \\t]*[{}]?[ \\t]*)(' + syntax[0].join('|') + ')\\b($|[\\t ,])(.*?)(?=<(?:em|sct)\\d+></(?:em|sct)\\d+>|$)', 'gim'), function(_, PRE, DIR, SEP, PARAMS)
+      return innerHTML.replace(new RegExp('(^[ \\t]*(?:[{}][ \\t]*)*)(' + syntax[0].join('|') + ')\\b($|[\\t ,])(.*?)(?=<(?:em|sct)\\d+></(?:em|sct)\\d+>|$)', 'gim'), function(_, PRE, DIR, SEP, PARAMS)
       {
         var dir = DIR.toLowerCase();
         var types = index_data[syntax[0].dict[dir]][3]; // parameter types
@@ -242,7 +242,8 @@ function ctor_highlighter()
     /** Searches for control flow statements and commands, formats them and replaces them with placeholders. */
     function command_alikes(innerHTML)
     {
-      innerHTML = innerHTML.replace(new RegExp('(^[ \\t]*[{}]?[ \\t]*)\\b(?:(' + syntax[3].join('|') + ')|(' + syntax[6].join('|') + '))\\b([ \\t]*,|\\(|\\{|$|[ \\t](?![ \\t]*' + self.assignOp + '))(.*?(?=[ \\t]*<(?:em|sct)\\d+></(?:em|sct)\\d+>(?!<cont\\d+>)|$)(?:(?:.*[\\n\\r][ \\t]*?(?:,|<(?:em|sct)\\d+></(?:em|sct)\\d+>(?:\\s*,)?|<cont\\d+>).+?(?=[ \\t]*<(?:em|sct)\\d+></(?:em|sct)\\d+>|$)))*)', 'gim'), function(ASIS, PRE, CFS, CMD, SEP, PARAMS)
+      innerHTML = innerHTML.replace(new RegExp('(^[ \\t]*(?:[{}][ \\t]*)*)\\b(?:(' + syntax[3].join('|') + ')|(' + syntax[6].join('|') + '))\\b([ \\t]*,|\\(|\\{|$|[ \\t](?![ \\t]*' + self.assignOp + '))(.*?(?=[ \\t]*<(?:em|sct)\\d+></(?:em|sct)\\d+>(?!<cont\\d+>)|$)(?:(?:.*[\\n\\r][ \\t]*?(?:,|<(?:em|sct)\\d+></(?:em|sct)\\d+>(?:\\s*,)?|<cont\\d+>).+?(?=[ \\t]*<(?:em|sct)\\d+></(?:em|sct)\\d+>|$)))*)', 'gim'), function(ASIS, PRE, CFS, CMD, SEP, PARAMS)
+
       {
         if (CFS) // control flow statements:
         {
@@ -351,7 +352,7 @@ function ctor_highlighter()
         }
       });
       // switch's case keyword:
-      innerHTML = innerHTML.replace(new RegExp('(^[ \\t]*[{}]?[ \\t]*)\\b(case)\\b([ \\t]*,[ \\t]*|[ \\t]+)(.*?:(?!=).*?)(?=[ \\t]*<(?:em|sct)\\d+><\/(?:em|sct)\\d+>|$)', 'gim'), function(ASIS, PRE, CFS, SEP, PARAMS)
+      innerHTML = innerHTML.replace(new RegExp('(^[ \\t]*(?:[{}][ \\t]*)*)\\b(case)\\b([ \\t]*,[ \\t]*|[ \\t]+)(.*?:(?!=).*?)(?=[ \\t]*<(?:em|sct)\\d+><\/(?:em|sct)\\d+>|$)', 'gim'), function(ASIS, PRE, CFS, SEP, PARAMS)
       {
         // Temporarily exclude colon-using elements:
         var temp = {order: []};
@@ -372,7 +373,7 @@ function ctor_highlighter()
         return PRE + ph('cfs', wrap(CFS, 'cfs', 3) + SEP + parts.join(':'));
       });
       // switch's default keyword:
-      innerHTML = innerHTML.replace(new RegExp('(^[ \\t]*[{}]?[ \\t]*)\\b(default)\\b([ \\t]*:(?!=))([^\\r\\n]+?)(?=[ \\t]*<(?:em|sct)\\d+><\/(?:em|sct)\\d+>|$)', 'gim'), function(_, PRE, CFS, COLON, PARAMS)
+      innerHTML = innerHTML.replace(new RegExp('(^[ \\t]*(?:[{}][ \\t]*)*)\\b(default)\\b([ \\t]*:(?!=))([^\\r\\n]+?)(?=[ \\t]*<(?:em|sct)\\d+><\/(?:em|sct)\\d+>|$)', 'gim'), function(_, PRE, CFS, COLON, PARAMS)
       {
         return PRE + ph('cfs', wrap(CFS, 'cfs', 3) + COLON + statements(PARAMS));
       });
@@ -428,7 +429,7 @@ function ctor_highlighter()
     /** Searches for legacy assignments, formats them and replaces them with placeholders. */
     function legacy_assignments(innerHTML)
     {
-      return innerHTML.replace(/(^[ \t]*[{}]?[ \t]*)([a-z0-9_\#@\$%\u00A0-\uFFFF]+?[ \t]*([+-]?=)[ \t]*)(.*?(?=[ \t]*<(?:em|sct)\d+><\/(?:em|sct)\d+>(?!<cont\d+>)|$)(?:(?:.*[\n\r][ \t]*?(?:,|<(em|sct)\d+><\/(em|sct)\d+>(\s*,)?|<cont\d+>).+?(?=[ \t]*<(?:em|sct)\d+><\/(?:em|sct)\d+>|$)))*)/gim, function(_, PRE, VAR_OP, OP, PARAMS)
+      return innerHTML.replace(/(^[ \t]*(?:[{}][ \t]*)*)([a-z0-9_\#@\$%\u00A0-\uFFFF]+?[ \t]*([+-]?=)[ \t]*)(.*?(?=[ \t]*<(?:em|sct)\d+><\/(?:em|sct)\d+>(?!<cont\d+>)|$)(?:(?:.*[\n\r][ \t]*?(?:,|<(em|sct)\d+><\/(em|sct)\d+>(\s*,)?|<cont\d+>).+?(?=[ \t]*<(?:em|sct)\d+><\/(?:em|sct)\d+>|$)))*)/gim, function(_, PRE, VAR_OP, OP, PARAMS)
       {
         var types = 'S', is_not_equal = (OP != '=');
         PARAMS = param_list_to_array(PARAMS, is_not_equal);
