@@ -360,9 +360,9 @@ MyGui.Show()</pre>
 <h2 id="ListBox">ListBox</h2>
 <p>A relatively tall box containing a list of choices that can be selected. In this case, the last parameter of <a href="Gui.htm#Add">MyGui.Add</a> is an <a href="Array.htm">Array</a> like <code>["Choice1","Choice2","Choice3"]</code>.</p>
 <p>For example:</p>
-<pre>MyGui.Add("ListBox", "r5 vColorChoice", ["Red","Green","Blue"])</pre>
+<pre>MyGui.Add("ListBox", "r5 vColorChoice", ["Red","Green","Blue","Black","White"])</pre>
 <p>Or:</p>
-<pre>MyGui.AddListBox("r5 vColorChoice", ["Red","Green","Blue"])</pre>
+<pre>MyGui.AddListBox("r5 vColorChoice", ["Red","Green","Blue","Black","White"])</pre>
 <p>Appearance:</p>
 <img src="../static/ctrl_list.png" alt="ListBox" />
 <p id="ChooseLB">To have one of the items pre-selected when the window first appears, include in <em>Options</em> the word <strong>Choose</strong> followed immediately by the number of an item to be pre-selected. For example, <code>Choose5</code> would pre-select the fifth item. To have multiple items pre-selected, use <a href="GuiControl.htm#Choose">GuiCtrl.Choose</a> multiple times (requires the <a href="#ListBoxMulti">Multi</a> option). After the control is created, use <a href="GuiControl.htm#Value">GuiCtrl.Value</a>, <a href="GuiControl.htm#Text">GuiCtrl.Text</a> or <a href="GuiControl.htm#Choose">GuiCtrl.Choose</a> to change the selection, and <a href="GuiControl.htm#Add">GuiCtrl.Add</a> or <a href="GuiControl.htm#Delete">GuiCtrl.Delete</a> to add or remove entries from the list.</p>
